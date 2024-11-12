@@ -1,0 +1,1 @@
+web: gunicorn almaza.wsgi --log-file -

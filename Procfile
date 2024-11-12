@@ -1,1 +1,1 @@
-web: gunicorn almaza.wsgi --log-file -
+web: gunicorn projeto_almaza.wsgi --log-file -

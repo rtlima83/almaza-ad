@@ -1,0 +1,417 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Esfiharia Almaza</title>
+    <meta name="description" content="Deliciosas esfihas e kibes você enconta aqui">
+    <meta name="keywords" content="onde comer em peruibe, esfiha, comida árabe, esfirra, esfiharia, esfiha de carne, esfiha de queijo, kibe, kibe frito, coalhada, coalhada seca, homus, babaganoush, pão sírio, kafta">
+    
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Pinyon+Script" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles-merged.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
+
+    <!--[if lt IE 9]>
+      <script src="js/vendor/html5shiv.min.js"></script>
+      <script src="js/vendor/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    
+    <!-- Fixed navbar -->
+    
+    <nav class="navbar navbar-default navbar-fixed-top probootstrap-navbar">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="" href="{% url 'index' %}" title="Almaza"><img src="{% static 'img/logomarca.png' %}" alt="Imagem da logomarca do Almaza escrita em estilo árabe na cor dourada."></a>
+        </div>
+
+        <div id="navbar-collapse" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item active">
+            <li class="active"><a href="#" data-nav-section="welcome">Home</a></li>
+            <li><a href="#" data-nav-section="sobre">Sobre</a></li>
+            <li><a href="#" data-nav-section="menu">Cardápio</a></li>
+            <li><a href="#" data-nav-section="contact">Contato</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <section class="flexslider" data-section="welcome">
+      <ul class="slides">
+        <li style="background-image: url({% static 'img/bg_4.jpg' %})" alt ="Imagem de umprato contendo uma porção de coalhada seca." class="overlay" data-stellar-background-ratio="0.5">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                <div class="probootstrap-slider-text text-center probootstrap-animate probootstrap-heading">
+                  <h1 class="primary-heading">Bem-vindo</h1>
+                  <h3 class="secondary-heading">ao Almaza</h3>
+                  <p class="sub-heading">As melhores esfihas árabes da cidade</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li style="background-image: url({% static 'img/bg_2.jpg' %})" alt="Imagem de mini kibes recheados de coalhada seca." class="overlay">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                <div class="probootstrap-slider-text text-center probootstrap-animate probootstrap-heading">
+                  <h1 class="primary-heading">Escolha</h1>
+                  <h3 class="secondary-heading">Suas Preferidas</h3>
+                  <p class="sub-heading">Temos algumas opções deliciosas.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </li>
+        <li style="background-image: url({% static 'img/bg_3.jpg' %})" alt="Imagem de uma porção de kibes em uma bandeja." class="overlay">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                <div class="probootstrap-slider-text text-center probootstrap-animate probootstrap-heading">
+                  <h1 class="primary-heading">Peça</h1>
+                  <h3 class="secondary-heading">Sem sair de Casa</h3>
+                  <p class="sub-heading">Receba essas delícias no conforto da sua casa.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+    
+    <section class="probootstrap-section probootstrap-bg-white" data-section="sobre">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-5 text-center probootstrap-animate">
+            <div class="probootstrap-heading dark">
+              <h1 class="primary-heading">Descubra</h1>
+              <h3 class="secondary-heading">Nossa História</h3>
+              <span class="seperator">* * *</span>
+            </div>
+            <p>Sejam bem-vindos ao Almaza. O Almaza é uma representação da nossa admiração da cultura e culinária árabe. Desde sempre tivemos contato com esses maravilhosos sabores e era um sonho não muito distante  de canalizar essa admiração. Finalmente colocamos em prática nossa vontade de compartilhar essas delícias, cheias de aromas e sabores, além do mais especial, tudo feito com muito amor e dedicação. Salamaleico!</p>
+            <p><a href="#" class="probootstrap-custom-link">Sobre Nós</a></p>
+          </div>
+          <div class="col-md-6 col-md-push-1 probootstrap-animate">
+            <p><img src="{% static 'img/img_1.jpg' %}" alt="Imagem de uma bandeira da Armênia em cima de um balcão." class="img-responsive" data-section="descubra"></p>
+          </div>
+        </div>
+        <!-- END row -->
+      </div>
+    </section>
+
+    <section class="probootstrap-section-bg overlay" style="background-image: url({% static 'img/bg_1.jpg' %})" alt="Imagem de um prato com algumas esfihas abertas." data-stellar-background-ratio="0.5" data-section="specialties">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center probootstrap-animate">
+            <div class="probootstrap-heading">
+              <h2 class="primary-heading">Descubra</h2>
+              <h3 class="secondary-heading">Nossas Especialidades</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+     <!-- probootstrap-bg-white -->
+    <section class="probootstrap-section">
+      <div class="container">
+        <div class="row">
+          <div class="probootstrap-cell-retro">
+            <div class="half">
+
+              <div class="probootstrap-cell probootstrap-animate" data-animate-effect="fadeIn">
+                <div class="image" style="background-image: url({% static 'img/quadro_1.jpg' %})" alt="Foto de uma esfiha de carne aberta."></div>
+                <div class="text text-center">
+                  <h3>Esfiha de Carne</h3>
+                  <p>Delicioso recheio tradicional de carne com cebola, tomate e especiarias.</p>
+                  <p class="price">R$6.50</p>
+                </div>
+              </div>
+              <div class="probootstrap-cell reverse probootstrap-animate" data-animate-effect="fadeIn">
+                <div class="image" style="background-image: url({% static 'img/quadro_2.jpg' %})" alt="Foto de uma esfiha aberta de kafta com queijo"></div>
+                <div class="text text-center">
+                  <h3>Esfiha de Kafta</h3>
+                  <p>Maravilhoso recheio de Kafta temperada com especiarias.</p>
+                  <p class="price">R$6.50</p>
+                </div>
+              </div>
+              <div class="probootstrap-cell probootstrap-animate" data-animate-effect="fadeIn">
+                <div class="image" style="background-image: url({% static 'img/quadro_3.jpg' %})" alt="Foto de uma esfiha aberta de trio de queijos."></div>
+                <div class="text text-center">
+                  <h3>Esfiha Trio de Queijos</h3>
+                  <p>Um delicioso mix de queijos muçarela, parmesão e requeijão cremoso.</p>
+                  <p class="price">R$7,50</p>
+                </div>
+              </div>
+
+            </div>
+            <div class="half">
+
+              <div class="probootstrap-cell probootstrap-animate" data-animate-effect="fadeIn">
+                <div class="image" style="background-image: url({% static 'img/quadro_4.jpg' %})" alt="Foto de um kibe tradicional árabe recheado de carne."></div>
+                <div class="text text-center">
+                  <h3>Kibe de Carne</h3>
+                  <p>Receita tradicional de família, casquinha crocante e recheio saboroso.</p>
+                  <p class="price">R$8.00</p>
+                </div>
+              </div>
+              <div class="probootstrap-cell reverse probootstrap-animate" data-animate-effect="fadeIn">
+                <div class="image" style="background-image: url({% static 'img/quadro_5.jpg' %})" alt="Foto de uma porção de coalhada seca no prato."></div>
+                <div class="text text-center">
+                  <h3>Coalhada Seca</h3>
+                  <p>Tradicional coalhada seca, 100% à base de leite. Porção de 100g.</p>
+                  <p class="price">R$12.50</p>
+                </div>
+              </div>
+              <div class="probootstrap-cell probootstrap-animate" data-animate-effect="fadeIn">
+                <div class="image" style="background-image: url({% static 'img/quadro_6.jpg' %})" alt="Foto de uma porção de homus no prato. Homus é uma pasta a base de grão-de-bico"></div>
+                <div class="text text-center">
+                  <h3>Homus</h3>
+                  <p>Tradicional pasta feita com grão-de-bico. Porção de 100g.</p>
+                  <p class="price">R$12.50</p>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="probootstrap-section-bg overlay" style="background-image: url({% static 'img/bg_5.jpg' %})"  data-stellar-background-ratio="0.5"  data-section="menu" alt="Imagem contendo um pedaço de halawi no prato, ele é um doce árabe feito de gergelim.">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center probootstrap-animate">
+            <div class="probootstrap-heading">
+              <h2 class="primary-heading">Descubra</h2>
+              <h3 class="secondary-heading">Nosso Cardápio</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="probootstrap-section probootstrap-bg-white">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <ul class="menus">
+              <li>
+                <figure class="image"><img src="{% static 'img/quadro_1.jpg' %}" alt="Foto de uma esfiha aberta de carne"></figure>
+                <div class="text">
+                  <span class="price">R$6.50</span>
+                  <h3>Esfiha de Carne</h3>
+                  <p>Carne bovina temperada</p>
+                </div>
+              </li>
+              <li>
+                <figure class="image"><img src="{% static 'img/quadro_2.jpg' %}" alt="Foto de uma esfiha aberta de kafta com queijo"></figure>
+                <div class="text">
+                  <span class="price">R$6.50</span>
+                  <h3>Esfiha de Kafta</h3>
+                  <p>Maravilhoso recheio de Kafta</p>
+                </div>
+              </li>
+              <li>
+                <figure class="image"><img src="{% static 'img/quadro_3.jpg' %}" alt="Foto de uma esfiha aberta de trio de queijos: parmesão, muçarela e requeijão"></figure>
+                <div class="text">
+                  <span class="price">R$7.50</span>
+                  <h3>Esfiha Trio de Queijos</h3>
+                  <p>Requeijão / Muçarela / Parmesão</p>
+                </div>
+              </li>
+              <li>
+                <figure class="image"><img src="{% static 'img/quadro_4.jpg' %}" alt="Foto de um kibe frito recheado de carne em um prato"></figure>
+                <div class="text">
+                  <span class="price">R$8.00</span>
+                  <h3>Kibe Frito</h3>
+                  <p>Trigo / Carne bovina</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <ul class="menus">
+              <li>
+                <figure class="image"><img src="{% static 'img/quadro_5.jpg' %}" alt="Foto de um prato com uma porção de coalhada seca"></figure>
+                <div class="text">
+                  <span class="price">R$12.50</span>
+                  <h3>Coalhada Seca</h3>
+                  <p>Pasta a base de leite</p>
+                </div>
+              </li>
+              <li>
+                <figure class="image"><img src="{% static 'img/quadro_6.jpg' %}" alt="Foto de um prato contendo uma porção de homus, que é uma pasta a base de grão-de-bico"></figure>
+                <div class="text">
+                  <span class="price">R$12.50</span>
+                  <h3>Homus</h3>
+                  <p>Pasta de Grão-de-bico</p>
+                </div>
+              </li>
+              <li>
+                <figure class="image"><img src="{% static 'img/quadro_7.jpg' %}" alt=""></figure>
+                <div class="text">
+                  <span class="price">R$12.50</span>
+                  <h3>Babaganoush</h3>
+                  <p>Pasta de berinjela</p>
+                </div>
+              </li>
+              <li>
+                <figure class="image"><img src="{% static 'img/quadro_8.jpg' %}" alt="Imagem contendo uma porção de pães sírio em um prato"></figure>
+                <div class="text">
+                  <span class="price">R$7.00</span>
+                  <h3>Pão Sírio</h3>
+                  <p>Pacote com 5 Unidades</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-md-5">
+      </div> 
+      
+      <div> 
+        <a class="btn btn-primary btn-lg" alt="Botão que direciona para o cardápio digital" href="https://app.cardapioweb.com/almaza_culinaria_arabe" target="_blank">Fazer Pedido</a>
+      </div>
+  </div>
+    
+
+    <section class="probootstrap-section probootstrap-bg-white" data-section="contact" alt="Área de contato">
+        <div class="container">
+            <div class="col-md-12 text-center probootstrap-animate">
+                <div class="probootstrap-heading dark">
+                    <h1 class="primary-heading">Contato</h1>
+                    <h3 class="secondary-heading"></h3>
+                </div>
+            </div>
+            <div class="row contact-form-area wow fadeInUp" data-wow-delay="0.3s">   
+              <div class="col-lg-7 col-md-12 col-sm-12">
+                <div class="contact-block">
+                  <form id="contato" method="post" action="{% url 'index' %}">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" required data-error="Please enter your name" alt="Espaço para preencher o nome">
+                          <div class="help-block with-errors"></div>
+                        </div>                                 
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <input type="text" placeholder="E-mail" id="email" class="form-control" name="email" required data-error="Please enter your email" alt="Espaço para preencher o e-mail">
+                          <div class="help-block with-errors"></div>
+                        </div> 
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <input type="text" placeholder="WhatsApp" id="whatsapp" class="form-control" name="whatsapp" required data-error="Please enter your email" alt="Espaço para preencher o whatsapp">
+                          <div class="help-block with-errors"></div>
+                        </div> 
+                      </div>
+                       <div class="col-md-12">
+                        <div class="form-group">
+                          <input type="text" placeholder="Assunto" id="assunto" name="assunto" class="form-control" required data-error="Please enter your subject" alt="Espaço para preencher o assunto">
+                          <div class="help-block with-errors"></div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group"> 
+                          <textarea class="form-control" id="mensagem" placeholder="Mensagem" name="mensagem" rows="7" data-error="Write your message" alt="Espaço para escrever a mensagem" required></textarea>
+                          <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="enviar" id="enviar" value="Enviar" class="btn btn-primary btn-lg" alt="Botão de enviar os dados">
+                        </div>
+                      </div>
+                    </div>            
+                  </form>
+                </div>
+              </div>
+              <div class="col-lg-5 col-md-12 col-xs-12">
+                <div class="map">
+                  <object style="border:0; height: 280px; width: 100%;" data="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d29089.39779488097!2d-46.983902047742305!3d-24.305539817688967!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94d029dadfd8e0cf%3A0xbc76a5df9095e859!2sAlmaza%20Culin%C3%A1ria%20%C3%81rabe!5e0!3m2!1spt-BR!2sbr!4v1731181253491!5m2!1spt-BR!2sbr" alt="Espaço de mapa do Google Maps">
+                  </object>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container">
+            {% if messages %}
+              {% for m in messages %}
+                <div class="alert alert-{{ m.tags }}">
+                  <button type="button" class="close" data-dismiss="alert"></button>
+                  <strong>{{ m }}</strong>
+                </div>
+              {% endfor %}
+            {% endif %} 
+          </div>
+    </section>
+
+    <section class="probootstrap-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 probootstrap-animate">
+            <div class="probootstrap-footer-widget">
+              <h3>Localização</h3>
+              <div class="row">
+                <div class="col-md-6" alt="Espaço de endereço">
+                  <p> Av Padre Anchieta, 3889 - Nova Peruíbe <br> Peruíbe SP 11770-042</p> 
+                </div>
+                <div class="col-md-6" alt="Espaço do número de WhatsApp">
+                  <p> Pedidos via WhatsApp <br> <a href="https://wa.me/c/5513997937180">13 99793-7180</p>            
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 probootstrap-animate">
+            <div class="probootstrap-footer-widget" alt="Espaço do horário de funcionamento">
+              <h3>Horários de Funcionamento</h3>
+              <div class="row">
+                <div class="col-md-4">
+                  <p>Terça/Quarta/Quinta <br> 18:30 - 22:00</p>
+                </div>
+                <div class="col-md-4">
+                  <p>Sexta e Sábado <br> 18:30 - 22:30</p>
+                </div>
+                <div class="col-md-4">
+                  <p>Domingo <br> 18:30 - 22:00</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="probootstrap-copyright">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+            <p class="copyright-text">&copy; 2024 <a href="">Almaza Delivery</a>. Todos os direitos reservados.</p>
+          </div>
+          <div class="col-md-4">
+            <ul class="probootstrap-footer-social right">
+              <li><a href="https://www.facebook.com/almazadelivery/?locale=pt_BR"><i class="icon-facebook" alt="Ícone com link para o Facebook"></i></a></li>
+              <li><a href="https://www.instagram.com/almazadelivery/"><i class="icon-instagram" alt="Ícone com link para o Instagram"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="{% static 'js/scripts.min.js' %}"></script>
+    <script src="{% static 'js/custom.min.js' %}"></script>
+
+  </body>
+</html>

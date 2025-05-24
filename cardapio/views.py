@@ -177,19 +177,21 @@ def meus_pedidos_view(request):
 
 @login_required  # Garante que apenas usuários logados acessem esta view
 def detalhe_pedido_view(request, pedido_id):
-   
+    print(f"DEBUG: Tentando acessar pedido com ID: {pedido_id}")
+    print(f"DEBUG: Usuário logado (request.user): {request.user.username} (ID: {request.user.id})")
 
-    pedido = get_object_or_404(
-        Pedido.objects.select_related('usuario').prefetch_related('itens__produto'),
-        id=pedido_id
-    )
+    pedido = get_object_or_404(Pedido, id=pedido_id)
 
-    
+    print(
+        f"DEBUG: Pedido encontrado. ID: {pedido.id}, Usuário do Pedido: {pedido.usuario.username if pedido.usuario else 'Nenhum'} (ID: {pedido.usuario.id if pedido.usuario else 'Nenhum'})")
+
     # Opcional: Para garantir que o usuário só veja seus próprios pedidos
     if pedido.usuario != request.user:
-        from django.http import Http404
+        # Você pode redirecionar para uma página de erro ou lançar um 403 Forbidden
+        print("DEBUG: PERMISSÃO NEGADA: O usuário do pedido é diferente do usuário logado.")
         raise Http404("Pedido não encontrado ou você não tem permissão para vê-lo.")
 
+    print("DEBUG: Permissão concedida. Renderizando página.")
     context = {
         'pedido': pedido
     }

@@ -133,8 +133,5 @@ class ItemPedido(models.Model):
     def __str__(self):
         return f"{self.quantidade}x {self.nome_produto_historico} (Pedido {self.pedido.id})"
 
-    def get_subtotal(self):
-        preco = self.preco_unitario_historico if self.preco_unitario_historico is not None else 0
-        qtd = self.quantidade if self.quantidade is not None else 0
-        return preco * qtd
-
+    def subtotal(self):
+        return self.quantidade * self.preco_unitario_historico

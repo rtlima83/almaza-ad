@@ -37,10 +37,17 @@
 
     <h3>Itens do Pedido:</h3>
     <ul>
-        {% for item in pedido.itens_do_pedido.all %} {# Assumindo um related_name 'itens_do_pedido' #}
-            <li>{{ item.produto.nome }} - Quantidade: {{ item.quantidade }}</li>
+        {% for item in pedido.itens.all %} {# Assumindo um related_name 'itens_do_pedido' #}
+        <tr>
+            <td>{{ item.nome_produto_historico }}</td>
+            <td>{{ item.quantidade }}</td>
+            <td>R$ {{ item.preco_unitario_historico|floatformat:2 }}</td>
+            <td>R$ {{ item.get_subtotal|floatformat:2 }}</td> {# CORREÇÃO 2: Use 'get_subtotal' #}
+        </tr>
         {% empty %}
-            <li>Nenhum item neste pedido.</li>
+        <tr>
+            <td colspan="4">Nenhum item neste pedido.</td>
+        </tr>
         {% endfor %}
     </ul>
 

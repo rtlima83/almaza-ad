@@ -71,7 +71,7 @@ class Pedido(models.Model):
     # Informações do Pedido
     criado_em = models.DateTimeField(auto_now_add=True, verbose_name="Criado em")
     atualizado_em = models.DateTimeField(auto_now=True, verbose_name="Atualizado em")
-    valor_total_pedido = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Valor Total do Pedido")
+    valor_total_pedido = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Valor Total do Pedido", default=0.00)
 
     forma_pagamento = models.CharField(
         max_length=20,

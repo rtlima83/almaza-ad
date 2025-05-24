@@ -30,52 +30,86 @@
       </div>
     </nav>
 {% endblock %}
+
 {% block content %}
-<div class="container my-5" style="margin-top: 30px;">
-    <h1>Detalhes do Pedido #{{ pedido.id }}</h1>
-    <p>Data do Pedido: {{ pedido.data_pedido|date:"d/m/Y H:i" }}</p>
-    <p>Status: {{ pedido.status }}</p>
-    {# Exiba outros detalhes do pedido aqui, como itens, total, etc. #}
+<div class="container my-5">
+    <h1 class="mb-4">Detalhes do Pedido #{{ pedido.id }}</h1>
 
-    <h3>Itens do Pedido:</h3>
-    <ul>
-        {% for item in pedido.itens_do_pedido.all %} {# Assumindo um related_name 'itens_do_pedido' #}
-            <li>{{ item.produto.nome }} - Quantidade: {{ item.quantidade }}</li>
-        {% empty %}
-            <li>Nenhum item neste pedido.</li>
-        {% endfor %}
-    </ul>
-
-    <hr>
-
-    {# Inclua o formulário de avaliação aqui #}
-    {% include 'avaliacoes/form_avaliacao_pedido.html' %} {# O nome do arquivo será esse, veja abaixo #}
-
-    <hr>
-
-    <h3>Avaliações Existentes para Este Pedido:</h3>
-    <div id="avaliacoesExistentes">
-        {# Este div pode ser populado via JavaScript carregando as avaliações da API #}
-        {% for avaliacao in pedido.avaliacoes_recebidas.all %}
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h5 class="card-title">Nota: {{ avaliacao.nota }} estrelas</h5>
-                    {# <h6 class="card-subtitle mb-2 text-muted">Por {{ avaliacao.cliente.username }} em {{ avaliacao.data_avaliacao|date:"d/m/Y" }}</h6> #}
-                    <h6 class="card-subtitle mb-2 text-muted">Feito por: {{ pedido.usuario.username }} em {{ pedido.criado_em|date:"d/m/Y H:i" }}</h6>
-                    {% if avaliacao.comentario %}
-                        <h6 class="card-subtitle mb-2 text-muted">Avaliado por: {{ avaliacao.cliente.username }} em {{ avaliacao.data_avaliacao|date:"d/m/Y" }}</h6>
-                        <p class="card-text">{{ avaliacao.comentario }}</p>
-                    {% else %}
-                        <p class="card-text">Sem comentário.</p>
-                    {% endif %}
-                </div>
-            </div>
-        {% empty %}
-            <p>Ainda não há avaliações para este pedido.</p>
-        {% endfor %}
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Informações do Cliente</h3>
+            <p><strong>Nome:</strong> {{ pedido.nome_completo }}</p>
+            <p><strong>Telefone:</strong> {{ pedido.telefone }}</p>
+            <p><strong>Observações:</strong> {{ pedido.observacoes|default:"Nenhuma" }}</p>
+        </div>
+        <div class="col-md-6">
+            <h3>Detalhes da Entrega</h3>
+            <p><strong>Endereço:</strong> {{ pedido.endereco_rua }}, {{ pedido.endereco_numero }}</p>
+            <p><strong>Complemento:</strong> {{ pedido.endereco_complemento|default:"N/A" }}</p>
+            <p><strong>Bairro:</strong> {{ pedido.endereco_bairro }}</p>
+            <p><strong>Cidade:</strong> {{ pedido.endereco_cidade }}</p>
+            <p><strong>CEP:</strong> {{ pedido.endereco_cep }}</p>
+        </div>
     </div>
 
+    <hr>
+
+    <h3>Itens do Pedido</h3>
+    {% if pedido.itens.all %} {# Verifica se há itens no pedido #}
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                        <th>Preço Unitário</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in pedido.itens.all %} {# Itera sobre os itens do pedido #}
+                    <tr>
+                        <td>{{ item.nome_produto_historico }}</td> {# Ou item.produto.nome se preferir do objeto Produto #}
+                        <td>{{ item.quantidade }}</td>
+                        <td>R$ {{ item.preco_unitario_historico|floatformat:2 }}</td>
+                        <td>R$ {{ item.subtotal|floatformat:2 }}</td> {# Adicione um método subtotal ao seu ItemPedido model #}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-warning">Nenhum item encontrado para este pedido.</div>
+    {% endif %}
+
+    <div class="text-end mt-4">
+        <h4>Valor Total do Pedido: <span class="text-success">R$ {{ pedido.valor_total_pedido|floatformat:2 }}</span></h4>
+        <p><strong>Forma de Pagamento:</strong> {{ pedido.get_forma_pagamento_display }}</p>
+        {% if pedido.troco_para %}
+            <p><strong>Troco para:</strong> R$ {{ pedido.troco_para|floatformat:2 }}</p>
+        {% endif %}
+        <p><strong>Status:</strong>
+            <span class="badge {% if pedido.status == 'recebido' %}bg-info text-dark{% elif pedido.status == 'em_preparo' %}bg-warning text-dark{% elif pedido.status == 'saiu_para_entrega' %}bg-primary{% elif pedido.status == 'entregue' %}bg-success{% elif pedido.status == 'cancelado' %}bg-danger{% endif %}">
+                {{ pedido.get_status_display }}
+            </span>
+        </p>
+        <p><strong>Criado em:</strong> {{ pedido.criado_em|date:"d/m/Y H:i" }}</p>
+        <p><strong>Última atualização:</strong> {{ pedido.atualizado_em|date:"d/m/Y H:i" }}</p>
+    </div>
+
+    <hr>
+
+    {# Seu formulário de avaliação deve vir aqui #}
+    <h3>Avaliar Pedido</h3>
+    {% include 'avaliacoes/form_avaliacao.html' with pedido_id=pedido.id %} {# Certifique-se de que este include está correto #}
+
+
+    <div class="mt-4 text-center">
+        <a href="{% url 'cardapio:meus_pedidos' %}" class="btn btn-secondary">Voltar para Meus Pedidos</a>
+        <a href="{% url 'home' %}" class="btn btn-dark">Voltar à Página Inicial</a>
+    </div>
 </div>
+{% endblock %}
 
 <section class="probootstrap-copyright">
       <div class="container">

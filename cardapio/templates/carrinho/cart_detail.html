@@ -1,0 +1,154 @@
+{% load static %}
+
+{#% block title %}Seu Carrinho de Compras{% endblock %#}
+
+{% block head_extra %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Esfiharia Almaza</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Pinyon+Script" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles-merged.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="js/vendor/html5shiv.min.js"></script>
+    <script src="js/vendor/respond.min.js"></script>
+
+    <nav class="navbar navbar-default navbar-fixed-top probootstrap-navbar">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="" href="{% url 'index' %}" title="Almaza"><img src="{% static 'img/logomarca.png' %}" alt="Imagem da logomarca do Almaza escrita em estilo árabe na cor dourada."></a>
+        </div>
+      </div>
+    </nav>
+{% endblock %}
+{% block content %}
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Pinyon+Script" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles-merged.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
+
+    <script src="js/vendor/html5shiv.min.js"></script>
+    <script src="js/vendor/respond.min.js"></script>
+
+<div class="container mt-4" style="margin-top: 60px;">
+    <h3>Seu Carrinho de Compras</h3>
+    <hr>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+    {% if cart %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" style="width: 15%;">Produto</th>
+                        <th scope="col" style="width: 35%;"></th>
+                        <th scope="col" class="text-center" style="width: 15%;">Preço Unit.</th>
+                        <th scope="col" class="text-center" style="width: 20%;">Quantidade</th>
+                        <th scope="col" class="text-end" style="width: 15%;">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart %}
+                        {% with product=item.product_obj %}
+                            <tr>
+                                <td>
+                                    {% if product.imagem %}
+                                        <img src="{{ product.imagem.url }}" alt="{{ product.nome }}" class="img-fluid rounded" style="max-height: 70px; width: auto;">
+                                    {% else %}
+                                        <div class="produto-sem-imagem-carrinho" style="height: 70px; width: 70px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #aaa; border-radius: 4px;">
+                                            <small>Sem Imagem</small>
+                                        </div>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="#">{{ product.nome }}</a> {# Link para a página do produto, se houver #}
+                                </td>
+                                <td class="text-center">R$ {{ item.price|stringformat:".2f" }}</td>
+                                <td class="text-center align-middle">
+                                    <form action="{% url 'cardapio:cart_detail' %}" method="post" class="d-inline-flex align-items-center">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="product_id_to_update" value="{{ product.id }}">
+                                        <div class="input-group input-group-sm justify-content-center mx-auto" style="max-width: 200px;">
+                                            <input type="number" name="new_quantity" value="{{ item.quantity }}" min="0" class="form-control" style="text-align: center; flex-grow: 0.5; min-width: 60px;" aria-label="Quantidade">
+                                            <button type="submit" class="btn btn-outline-secondary btn-sm" title="Atualizar Quantidade">
+                                                <i class="fas fa-sync-alt text-secondary"></i>
+                                            </button>
+                                            <a href="{% url 'cardapio:cart_remove' product_id=product.id %}" class="btn btn-outline-danger btn-sm ms-2" title="Remover Item">
+                                                <i class="fas fa-trash-alt text-danger"></i>
+                                            </a>
+                                        </div>
+                                    </form>
+                                </td>
+                                <td class="text-end fw-bold">R$ {{ item.total_price|stringformat:".2f" }}</td>
+                            </tr>
+                        {% endwith %}
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr class="table-light">
+                        <td colspan="4" class="text-end fw-bold fs-5">Total do Carrinho:</td>
+                        <td class="text-end fw-bold fs-5">R$ {{ cart.get_total_price|stringformat:".2f" }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{% url 'cardapio:exibir_cardapio' %}" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left"></i> Continuar Comprando
+            </a>
+            <div class="d-flex"> {# Agrupando botões da direita #}
+                <a href="{% url 'cardapio:cart_clear' %}" class="btn btn-outline-danger me-2 mb-2 mb-md-0">
+                    <i class="fas fa-times-circle"></i> Limpar Carrinho
+                </a>
+                <a href="{% url 'cardapio:checkout' %}" class="btn btn-lg btn-success mb-2 mb-md-0">
+                    Finalizar Compra <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+</div>
+    {% else %}
+        <div class="alert alert-info text-center" role="alert">
+            Seu carrinho está vazio. <a href="{% url 'cardapio:exibir_cardapio' %}" class="alert-link">Comece a comprar!</a>
+        </div>
+    {% endif %}
+</div>
+
+    <section class="probootstrap-copyright" style="margin-top: 60px;">
+      <div class="container mt-5">
+        <div class="row">
+          <div class="col-md-8">
+            <p class="copyright-text">&copy; 2025 <a href="">Almaza Delivery</a>. Todos os direitos reservados.</p>
+          </div>
+          <div class="col-md-4">
+            <ul class="probootstrap-footer-social right">
+              <li><a href="https://www.facebook.com/almazadelivery/?locale=pt_BR"><i class="icon-facebook" alt="Ícone com link para o Facebook"></i></a></li>
+              <li><a href="https://www.instagram.com/almazadelivery/"><i class="icon-instagram" alt="Ícone com link para o Instagram"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <script src="{% static 'js/scripts.min.js' %}"></script>
+    <script src="{% static 'js/custom.min.js' %}"></script>
+{% endblock %}

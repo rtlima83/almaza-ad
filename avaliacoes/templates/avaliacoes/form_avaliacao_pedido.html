@@ -1,0 +1,104 @@
+{# avaliacoes/templates/avaliacoes/form_avaliacao_pedido.html #}
+{# Este formulário só deve ser exibido se o usuário estiver logado #}
+{% if request.user.is_authenticated %}
+    <div class="my-3">
+        <h4>Deixe sua Avaliação para este Pedido</h4>
+        <form id="formAvaliacaoPedido">
+            {% csrf_token %}
+            {# O ID do pedido é passado do contexto do template pai (detalhe_pedido.html) #}
+            <input type="hidden" name="pedido_id" value="{{ pedido.id }}"> 
+
+            <div class="mb-3">
+                <label for="id_nota" class="form-label">Nota:</label>
+                <select class="form-select" id="id_nota" name="nota" required>
+                    <option value="">Selecione uma nota</option>
+                    <option value="1">1 Estrela</option>
+                    <option value="2">2 Estrelas</option>
+                    <option value="3">3 Estrelas</option>
+                    <option value="4">4 Estrelas</option>
+                    <option value="5">5 Estrelas</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="id_comentario" class="form-label">Comentário:</label>
+                <textarea class="form-control" id="id_comentario" name="comentario" rows="3" placeholder="Seu comentário (opcional)"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Enviar Avaliação</button>
+        </form>
+        <div id="mensagemAvaliacao" class="mt-3"></div>
+    </div>
+
+    <script>
+        document.getElementById('formAvaliacaoPedido').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            const pedidoId = document.querySelector('input[name="pedido_id"]').value;
+            const nota = document.getElementById('id_nota').value;
+            const comentario = document.getElementById('id_comentario').value;
+
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            if (!nota) {
+                document.getElementById('mensagemAvaliacao').innerHTML = '<div class="alert alert-warning">Por favor, selecione uma nota.</div>';
+                return;
+            }
+            if (!pedidoId) {
+                document.getElementById('mensagemAvaliacao').innerHTML = '<div class="alert alert-danger">Erro: ID do pedido não encontrado.</div>';
+                return;
+            }
+
+            fetch('{% url "avaliacoes_api:lista_cria_avaliacao" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify({
+                    pedido: pedidoId,
+                    nota: nota,
+                    comentario: comentario
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    // Tenta ler o erro do JSON da resposta
+                    return response.json().then(errorData => {
+                        throw new Error(JSON.stringify(errorData));
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('mensagemAvaliacao').innerHTML = '<div class="alert alert-success">Avaliação enviada com sucesso!</div>';
+                console.log('Avaliação enviada:', data);
+                document.getElementById('formAvaliacaoPedido').reset();
+                // Opcional: Recarregar a lista de avaliações sem recarregar a página
+                // Você pode fazer uma nova requisição GET para a API de avaliações do pedido
+                // e adicionar a nova avaliação dinamicamente ao DOM.
+            })
+            .catch(error => {
+                let errorMessage = "Erro desconhecido ao enviar avaliação.";
+                try {
+                    const parsedError = JSON.parse(error.message);
+                    if (parsedError.detail) {
+                        errorMessage = parsedError.detail;
+                    } else if (parsedError.pedido) {
+                        errorMessage = "Erro no pedido: " + parsedError.pedido.join(", ");
+                    } else if (parsedError.nota) { # Adicionei tratamento para erro de nota
+                        errorMessage = "Erro na nota: " + parsedError.nota.join(", ");
+                    } else {
+                        errorMessage = error.message;
+                    }
+                } catch (e) {
+                    errorMessage = error.message;
+                }
+                document.getElementById('mensagemAvaliacao').innerHTML = '<div class="alert alert-danger">Erro ao enviar avaliação: ' + errorMessage + '</div>';
+                console.error('Erro:', error);
+            });
+        });
+    </script>
+{% else %}
+    <div class="my-3 text-center">
+        <p>Faça <a href="{% url 'usuarios:login' %}">login</a> para deixar sua avaliação para este pedido.</p>
+    </div>
+{% endif %}

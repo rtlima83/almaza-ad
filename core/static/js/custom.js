@@ -423,25 +423,34 @@
 	// Page Nav
 	var clickMenu = function() {
 
-		jQuery('.navbar-nav a:not([class="external"])').click(function(event){
+		jQuery('.navbar-nav a:not([class="external"])').click(function(t){
 
-			var section = jQuery(this).data('nav-section'),
-				navbar = jQuery('.navbar-nav');
-				if (isMobile.any()) {
-					jQuery('.navbar-toggle').click();
-				}
-				if ( jQuery('[data-section="' + section + '"]').length ) {
-			    	jQuery('html, body').animate({
-			        	scrollTop: jQuery('[data-section="' + section + '"]').offset().top - 55
-			    	}, 500, 'easeInOutExpo');
-			   }
+            console.log('Link clicado!');
+            var href = jQuery(this).attr('href');
+            console.log('href do link:', href);
 
-		    event.preventDefault();
-		    return false;
-		});
+            if (href && (
+                href.startsWith('/usuarios/login/') ||
+                href.startsWith('/usuarios/registro/') ||
+                href.startsWith('/usuarios/perfil/') ||
+                href.startsWith('/usuarios/logout/')
+            )) {
+                console.log('É um link de usuário! Permitindo navegação.');
+                return;
+            }
 
+            console.log('NÃO é um link de usuário ou não tem href. Impedindo navegação.');
 
-	};
+			var n = jQuery(this).data("nav-section");
+            jQuery(".navbar-nav");
+            return e.any() && jQuery(".navbar-toggle").click(),
+            jQuery('[data-section="' + n + '"]').length && jQuery("html, body").animate({
+                scrollTop: jQuery('[data-section="' + n + '"]').offset().top - 55
+            }, 500, "easeInOutExpo"),
+            t.preventDefault(), // Esta linha só será executada para links NÃO de usuário
+            !1 // Este também só será executado para links NÃO de usuário
+        })
+    };
 
 	// Reflect scrolling in navigation
 	var navActive = function(section) {

@@ -1,0 +1,100 @@
+{% load static %}
+
+{% block head_extra %}
+{# Adicione CSS específico para esta página, se necessário #}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Esfiharia Almaza</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Pinyon+Script" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles-merged.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="js/vendor/html5shiv.min.js"></script>
+    <script src="js/vendor/respond.min.js"></script>
+
+    <nav class="navbar navbar-default navbar-fixed-top probootstrap-navbar">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="" href="{% url 'index' %}" title="Almaza">
+              <img src="{% static 'img/logomarca.png' %}" alt="Imagem da logomarca do Almaza escrita em estilo árabe na cor dourada."></a>
+        </div>
+      </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">Meus Pedidos</h1>
+
+    {% if pedidos %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID do Pedido</th>
+                        <th>Data</th>
+                        <th>Valor Total</th>
+                        <th>Status</th>
+                        <th>Forma de Pagamento</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pedido in pedidos %}
+                    <tr>
+                        <td>{{ pedido.id }}</td>
+                        <td>{{ pedido.criado_em|date:"d/m/Y H:i" }}</td>
+                        <td>R$ {{ pedido.valor_total_pedido|floatformat:2 }}</td>
+                        <td>
+                            <span class="badge {% if pedido.status == 'recebido' %}bg-info text-dark{% elif pedido.status == 'em_preparo' %}bg-warning text-dark{% elif pedido.status == 'saiu_para_entrega' %}bg-primary{% elif pedido.status == 'entregue' %}bg-success{% elif pedido.status == 'cancelado' %}bg-danger{% endif %}">
+                                {{ pedido.get_status_display }} {# Retorna o valor "legível" do choice #}
+                            </span>
+                        </td>
+                        <td>{{ pedido.get_forma_pagamento_display }}</td>
+                        <td>
+                            <a href="{% url 'cardapio:detalhe_pedido' pedido.id %}" class="btn btn-sm btn-outline-info">Ver Detalhes</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center" role="alert">
+            Você ainda não fez nenhum pedido.
+        </div>
+    {% endif %}
+
+    <div class="mt-4 text-center">
+        <a href="{% url 'index' %}" class="btn btn-secondary">Voltar à Página Inicial</a>
+    </div>
+</div>
+
+    <section class="probootstrap-copyright">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+            <p class="copyright-text">&copy; 2025 <a href="">Almaza Delivery</a>. Todos os direitos reservados.</p>
+          </div>
+          <div class="col-md-4">
+            <ul class="probootstrap-footer-social right">
+              <li><a href="https://www.facebook.com/almazadelivery/?locale=pt_BR"><i class="icon-facebook" alt="Ícone com link para o Facebook"></i></a></li>
+              <li><a href="https://www.instagram.com/almazadelivery/"><i class="icon-instagram" alt="Ícone com link para o Instagram"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<script src="{% static 'js/scripts.min.js' %}"></script>
+<script src="{% static 'js/custom.min.js' %}"></script>
+{% endblock %}

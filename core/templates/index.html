@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
 
     <!--[if lt IE 9]>
-      <script src="js/vendor/html5shiv.min.js"></script>
-      <script src="js/vendor/respond.min.js"></script>
+      <script src="{% static 'js/vendor/html5shiv.min.js' %}"></script>
+      <script src="{% static 'js/vendor/respond.min.js' %}"></script>
     <![endif]-->
   </head>
   <body>
@@ -41,13 +41,37 @@
             <li><a href="#" data-nav-section="menu">Cardápio</a></li>
             <li><a href="#" data-nav-section="contact">Contato</a></li>
           </ul>
+
+          <ul class="nav navbar-nav navbar-right ms-auto"> {# ms-auto para alinhar à direita com Bootstrap 5 #}
+            {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'cardapio:meus_pedidos' %}">Meus Pedidos</a> {# <--- NOVO LINK AQUI #}
+                </li>
+                <li class="nav-item">
+                  <span class="nav-link">Olá, {{ request.user.first_name|default:request.user.username }}!</span>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'usuarios:perfil' %}">Meu Perfil</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'usuarios:logout' %}">Sair</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                  <a class="btn btn-outline-primary me-2" href="{% url 'usuarios:login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                  <a class="btn btn-primary" href="{% url 'usuarios:registro' %}">Registrar</a>
+                </li>
+            {% endif %}
+          </ul>
         </div>
       </div>
     </nav>
     
     <section class="flexslider" data-section="welcome">
       <ul class="slides">
-        <li style="background-image: url({% static 'img/bg_4.jpg' %})" alt ="Imagem de umprato contendo uma porção de coalhada seca." class="overlay" data-stellar-background-ratio="0.5">
+        <li style="background-image: url({% static 'img/bg_4.jpg' %})" alt="Imagem de um prato contendo uma porção de coalhada seca." class="overlay" data-stellar-background-ratio="0.5">
           <div class="container">
             <div class="row">
               <div class="col-md-8 col-md-offset-2">
@@ -283,9 +307,9 @@
       </div> 
       
       <div> 
-        <a class="btn btn-primary btn-lg" alt="Botão que direciona para o cardápio digital" href="https://app.cardapioweb.com/almaza_culinaria_arabe" target="_blank">Fazer Pedido</a>
+        <a class="btn btn-primary btn-lg" alt="Botão que direciona para o cardápio digital" href="{% url 'cardapio:exibir_cardapio' %}" target="_blank">Fazer Pedido</a>
       </div>
-  </div>
+  </section>
     
 
     <section class="probootstrap-section probootstrap-bg-white" data-section="contact" alt="Área de contato">
@@ -370,7 +394,7 @@
                   <p> Av Padre Anchieta, 3889 - Nova Peruíbe <br> Peruíbe SP 11770-042</p> 
                 </div>
                 <div class="col-md-6" alt="Espaço do número de WhatsApp">
-                  <p> Pedidos via WhatsApp <br> <a href="https://wa.me/c/5513997937180">13 99793-7180</p>            
+                  <p> Pedidos via WhatsApp <br> <a href="https://wa.me/c/5513997937180"> 13 99793-7180</a></p>
                 </div>
               </div>
             </div>
@@ -394,11 +418,13 @@
         </div>
       </div>
     </section>
+
+
     <section class="probootstrap-copyright">
       <div class="container">
         <div class="row">
           <div class="col-md-8">
-            <p class="copyright-text">&copy; 2024 <a href="">Almaza Delivery</a>. Todos os direitos reservados.</p>
+            <p class="copyright-text">&copy; 2025 <a href="">Almaza Delivery</a>. Todos os direitos reservados.</p>
           </div>
           <div class="col-md-4">
             <ul class="probootstrap-footer-social right">
@@ -411,7 +437,8 @@
     </section>
 
     <script src="{% static 'js/scripts.min.js' %}"></script>
-    <script src="{% static 'js/custom.min.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
 
   </body>
 </html>
+

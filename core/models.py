@@ -7,8 +7,6 @@ class Contato(models.Model):
     whatsapp = models.CharField('WhatsApp', max_length=15)
 
 
-    
 
 
 
-    

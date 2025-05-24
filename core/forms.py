@@ -10,7 +10,6 @@ class ContatoForm(forms.Form):
     assunto = forms.CharField(label='Assunto', max_length=100)
     mensagem = forms.CharField(label='Mensagem', widget=forms.Textarea())
 
-    
     def send_mail(self):
         nome = self.cleaned_data['nome']
         email = self.cleaned_data['email']
@@ -22,7 +21,6 @@ class ContatoForm(forms.Form):
 
         Contato.objects.create(nome=nome, email=email, whatsapp=whatsapp)
 
-
         mail = EmailMessage(
             subject=assunto,
             body=conteudo,
@@ -32,5 +30,4 @@ class ContatoForm(forms.Form):
         )
         mail.send()
 
-    
 

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4d%i4o9582=^&o0qn12(hn=gc0i!n5gkvi6#g)%=#utg1_b-$j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -40,6 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+    'cardapio',
+    'avaliacoes',
+    'rest_framework',
+    'usuarios',
+
 ]
 
 MIDDLEWARE = [
@@ -66,6 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -77,7 +84,7 @@ WSGI_APPLICATION = 'almaza.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-"""
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -91,8 +98,10 @@ DATABASES = {
 }
 """
 
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
-
+DATABASES = {
+    'default': dj_database_url.config()
+}
+"""
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -154,3 +163,12 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 """
 
 LOGOUT_REDIRECT_URL = 'index'
+
+CART_SESSION_ID = 'cart'  # Você pode escolher qualquer nome aqui
+
+AUTH_USER_MODEL = 'usuarios.Cliente'
+LOGIN_REDIRECT_URL = '/'  # URL para onde redirecionar após o login bem-sucedido
+LOGOUT_REDIRECT_URL = '/' # URL para onde redirecionar após o logout
+LOGIN_URL = 'usuarios:login' # URL para a página de login
+
+

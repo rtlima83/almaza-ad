@@ -16,10 +16,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.conf.urls.static import static
 from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('core.urls'),)
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('api/avaliacoes/', include('avaliacoes.urls', namespace='avaliacoes_api')),
+    path('', include('core.urls')),  # Assume que o core.urls lida com a rota raiz "/" para seu index.html
+    path('cardapio/', include('cardapio.urls')),  # Nova rota para o cardápio
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('usuarios/', include('usuarios.urls')), # Inclui as URLs do app usuarios
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

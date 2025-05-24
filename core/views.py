@@ -1,8 +1,6 @@
 from django.views.generic import FormView
 from django.urls import reverse_lazy
 from django.contrib import messages
-
-
 from .forms import ContatoForm
 
 
@@ -19,4 +17,7 @@ class IndexView(FormView):
     def form_invalid(self, form, *args, **kwargs):
         messages.error(self.request, 'Erro ao enviar o e-mail')
         return super(IndexView, self).form_invalid(form, *args, **kwargs)
-    
+
+
+
+

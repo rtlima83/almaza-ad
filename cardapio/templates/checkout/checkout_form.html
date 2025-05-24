@@ -1,0 +1,158 @@
+{# extends "core/base.html" #}
+{% load static %}
+{# load crispy_forms_tags %} {# Se você usa crispy-forms, senão renderize manualmente #}
+
+{% block head_extra %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Esfiharia Almaza</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Pinyon+Script" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/styles-merged.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="js/vendor/html5shiv.min.js"></script>
+    <script src="js/vendor/respond.min.js"></script>
+
+    <nav class="navbar navbar-default navbar-fixed-top probootstrap-navbar">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="" href="{% url 'index' %}" title="Almaza"><img src="{% static 'img/logomarca.png' %}" alt="Imagem da logomarca do Almaza escrita em estilo árabe na cor dourada."></a>
+        </div>
+      </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Pinyon+Script" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles-merged.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="js/vendor/html5shiv.min.js"></script>
+    <script src="js/vendor/respond.min.js"></script>
+
+<div class="container mt-4" style="margin-top: 90px;">
+    <h3 class="mb-4">Finalizar Compra</h3>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-7 col-lg-8 order-md-last">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-primary">Seu Pedido</span>
+                <span class="badge bg-primary rounded-pill">{{ cart|length }}</span>
+            </h4>
+            <ul class="list-group mb-3">
+                {% for item in cart %}
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">{{ item.product_obj.nome }}</h6>
+                        <small class="text-muted">Quantidade: {{ item.quantity }}</small>
+                    </div>
+                    <span class="text-muted">R$ {{ item.total_price|stringformat:".2f" }}</span>
+                </li>
+                {% endfor %}
+                <li class="list-group-item d-flex justify-content-between bg-light">
+                    <span class="fw-bold">Total (R$)</span>
+                    <strong class="fw-bold">R$ {{ cart.get_total_price|stringformat:".2f" }}</strong>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-5 col-lg-4">
+            <h2 class="mb-3">Informações de Entrega e Pagamento</h2>
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                {# Renderizando com crispy-forms (se instalado e configurado) #}
+
+
+                {# Renderização manual, caso não use crispy-forms: #}
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+                <hr class="my-4">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">
+                    <i class="fas fa-check-circle"></i> Confirmar Pedido
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{# Script opcional para mostrar/ocultar campo "Troco para" baseado na forma de pagamento #}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const formaPagamentoSelect = document.getElementById('id_forma_pagamento'); // Verifique o ID gerado
+    const trocoParaContainer = document.getElementById('id_troco_para')?.closest('.mb-3'); // Encontra o container do campo
+
+    function toggleTrocoPara() {
+        if (trocoParaContainer) {
+            if (formaPagamentoSelect.value === 'dinheiro') {
+                trocoParaContainer.style.display = '';
+            } else {
+                trocoParaContainer.style.display = 'none';
+                // Opcional: limpar o valor do campo troco se não for dinheiro
+                // document.getElementById('id_troco_para').value = '';
+            }
+        }
+    }
+
+    if (formaPagamentoSelect) {
+        formaPagamentoSelect.addEventListener('change', toggleTrocoPara);
+        toggleTrocoPara(); // Executa na carga da página
+    }
+});
+</script>
+
+<section class="probootstrap-copyright">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+            <p class="copyright-text">&copy; 2025 <a href="">Almaza Delivery</a>. Todos os direitos reservados.</p>
+          </div>
+          <div class="col-md-4">
+            <ul class="probootstrap-footer-social right">
+              <li><a href="https://www.facebook.com/almazadelivery/?locale=pt_BR"><i class="icon-facebook" alt="Ícone com link para o Facebook"></i></a></li>
+              <li><a href="https://www.instagram.com/almazadelivery/"><i class="icon-instagram" alt="Ícone com link para o Instagram"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<script src="{% static 'js/scripts.min.js' %}"></script>
+<script src="{% static 'js/custom.min.js' %}"></script>
+{% endblock %}
+
+
+{# *Observação sobre Crispy Forms:* Se você não tiver `django-crispy-forms` instalado e configurado no seu `settings.py` (`INSTALLED_APPS` e `CRISPY_ALLOWED_TEMPLATE_PACKS`, `CRISPY_TEMPLATE_PACK`), você precisará renderizar os campos do formulário manualmente (o exemplo comentado mostra como). Para usar `|crispy`, instale `pip install django-crispy-forms` e `pip install crispy-bootstrap5` (ou bootstrap4, dependendo da sua versão do Bootstrap).#}
+
+

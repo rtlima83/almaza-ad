@@ -92,19 +92,7 @@ WSGI_APPLICATION = 'almaza.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-'''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'almaza',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '3306',
 
-    }
-}
-'''
 
 DATABASES = {
     'default': {
@@ -170,17 +158,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Email teste no console
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-"""
-# Email quando em produção
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TSL = True
-EMAIL_HOST_USER = 'almazadelivery@gmail.com
-EMAIL_HOST_PASSWORD = ''
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-"""
 
 LOGOUT_REDIRECT_URL = 'index'
 

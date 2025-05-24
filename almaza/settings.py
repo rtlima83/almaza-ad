@@ -86,7 +86,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'projeto_almaza.wsgi.application'
+WSGI_APPLICATION = 'almaza.wsgi.application'
 
 
 # Database

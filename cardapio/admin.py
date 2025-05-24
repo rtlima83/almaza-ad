@@ -22,7 +22,7 @@ class ItemPedidoInline(admin.TabularInline):  # Ou admin.StackedInline
     model = ItemPedido
     raw_id_fields = ['produto']  # Para facilitar a seleção de produtos se houver muitos
     extra = 0  # Não mostrar itens vazios por padrão
-    readonly_fields = ('preco_unitario_historico', 'nome_produto_historico', 'get_subtotal')  # Campos calculados ou históricos
+    readonly_fields = ('nome_produto_historico', 'get_subtotal')  # Campos calculados ou históricos
 
     def get_subtotal(self, obj):
         return obj.get_subtotal()
